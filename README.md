@@ -171,7 +171,8 @@ Responses so far identified.
 ### 0x05 - Various Flags
 |   0  | 1 | 2 | 3 | 4 | 5 | 6 |  7  | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
 |------|---|---|---|---|---|---|-----|---|---|----|----|----|----|----|----|----|
-| 0x05 |   |   |   |   |   |   | HWB |   |   |    |    |    |    |    |    |    |  
+| 0x05 |   |   |   |   | H |   | HWB |   |   |    |    |    |    |    |    |    |  
+* H : Heating Temperature Mode Response Curve? (Unknown)
 * HWB : Hot Water Boost
 ### 0x07 
 |   0   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
@@ -184,8 +185,8 @@ Responses so far identified.
 | 0x09 | Z1T  | Z1T  | Z2T  | Z2T  | Z1ST | Z1SP | Z2SP | Z2SP | LSP | LSP | HWD |  ? | ?  |    |    |    |
 * Z1T  : Zone1 Target Temperature * 100
 * Z2T  : Zone2 Target Temperature * 100;
-* Z1SP : Zone 1 Flow SetFlow Setpoint * 100
-* Z2SP : Zone 3 Flow SetFlow Setpoint * 100
+* Z1SP : Zone1 Flow SetFlow Setpoint * 100
+* Z2SP : Zone2 Flow SetFlow Setpoint * 100
 * LSP  : Legionella Setpoint * 100;
 * HWD  : DHW Max Temp Drop;
 ### 0x0b - Zone 1 & 2 and Outside Temperature
