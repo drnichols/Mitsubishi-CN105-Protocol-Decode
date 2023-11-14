@@ -97,7 +97,7 @@ Active commands so far identified, 0x00 to 0xff. Commands not listed appear to g
 | 0x06 | Unknown - Empty Response |
 | 0x06 | Unknown - Empty Response |
 | 0x07 | Unknown |
-| 0x08 | Unknown |
+| 0x08 | Unknown - Nothing |
 | 0x09 | Zone 1 & 2 Temperatures and Setpoints, Hot Water Setpoint |
 | 0x0b | Zone 1 & 2 and Outside |Temperature
 | 0x0c | Water Flow Temperatures |
@@ -118,9 +118,9 @@ Active commands so far identified, 0x00 to 0xff. Commands not listed appear to g
 | 0x1e | Unknown - Empty Response |
 | 0x1f | Unknown - Empty Response |
 | 0x20 | Unknown - Empty Response |
-| 0x26 | Various Operantion Mode Flags |
+| 0x26 | Various Operation Mode Flags |
 | 0x27 | Unknown |
-| 0x28 | Various Operantion Mode Flags |
+| 0x28 | Various Operation Mode Flags |
 | 0x29 | Zone 1 & 2 Temperatures |
 | 0xa1 | Unknown |
 | 0xa2 | Unknown |
@@ -171,13 +171,15 @@ Responses so far identified.
 ### 0x05 - Various Flags
 |   0  | 1 | 2 | 3 | 4 | 5 | 6 |  7  | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
 |------|---|---|---|---|---|---|-----|---|---|----|----|----|----|----|----|----|
-| 0x05 |   |   |   |   |   |   | HWB |   |   |    |    |    |    |    |    |    |  
+| 0x05 |   |   |   |   | x |   | HWB |   |   |    |    |    |    |    |    |    |  
 * HWB : Hot Water Boost
+* x   : PWM Pump Speed?
 ### 0x07 
 |   0   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
 |-------|---|---|---|---|---|---|---|---|---|----|----|----|----|----|----|----|
-| 0x07  |   |   |   |   |   |   |   |   | P  |    |    |    |    |    |    |    |  
+| 0x07  |   |   |   | x |   | P |   |   |   |    |    |    |    |    |    |    |  
 * P : Heater Power (kW)
+* x : 5-6min of 1 when starting/stopping?
 ### 0x09 - Zone 1 & 2 Temperatures and Setpoints, Hot Water Setpoint
 | 0    |   1  |   2  | 3    | 4    | 5    | 6    | 7    | 8    |  9  |  10 |  11 | 12 | 13 | 14 | 15 | 16 |
 |------|------|------|------|------|------|------|------|------|-----|-----|-----|----|----|----|----|----|
@@ -189,9 +191,9 @@ Responses so far identified.
 * LSP  : Legionella Setpoint * 100;
 * HWD  : DHW Max Temp Drop;
 ### 0x0b - Zone 1 & 2 and Outside Temperature
-|   0  |  1  |  2  | 3 | 4 | 5 | 6 |  7  |  8  | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
-|------|-----|-----|---|---|---|---|-----|-----|---|----|----|----|----|----|----|----|
-| 0x0b | Z1T | Z1T | ? | ? |   |   | Z2T | Z2T |   |    | O  |    |    |    |    |    |
+|   0  |  1  |  2  |  3  |  4  | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
+|------|-----|-----|-----|-----|---|---|---|---|---|----|----|----|----|----|----|----|
+| 0x0b | Z1T | Z1T | Z2T | Z2T |   |   |   |   |   |    |  O |    |    |    |    |    |
 * Z1T : Zone1 Temperature * 100
 * Z2T : Zone2 Temperature * 100
 * O : Outside Temp  +40 x 2 
@@ -220,8 +222,8 @@ Several Unknown Temperatures
 * PF : Primary Flow Rate (l/min)
 ### 0x26
 | 0 | 1 | 2 |  3  | 4  | 5  | 6  | 7 |   8  |  9   |  10 |  11 | 12 | 13 | 14 |
-|---|---|---|-----|----|----|----|---|------|------|-----|-----|----|----|----|
-|   |   |   | Pwr | OM | HW | Op |   | HWPS | HWSP | HSP | HSP | SP | SP |    |
+|---|---|---|-----|----|----|----|----|------|------|-----|-----|----|----|----|
+|   |   |   | Pwr | OM | HW |OpZ1|OpZ2| HWSP | HWSP | HSP | HSP | SP | SP |    |
 * Pwr - Power
   * 0 : Standby
   * 1 : On
@@ -233,7 +235,11 @@ Several Unknown Temperatures
 * HW - Hot Water Mode
   * 0 : Normal
   * 1 : Economy
-* Op - Operation Mode: 
+* Op - Operation Mode Zone 1: 
+  * 0 : Temperature Mode
+  * 1 : Flow Control Mode
+  * 2 : Compensation Curve Mode
+* Op - Operation Mode Zone 2: 
   * 0 : Temperature Mode
   * 1 : Flow Control Mode
   * 2 : Compensation Curve Mode
